@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBundee API Documentation</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"></script>
+</head>
+<body>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+    
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>MyBundee API</h1>
+                <p>Developer Documentation</p>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search documentation..." onkeyup="searchDocs(event)">
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <a href="#overview" class="nav-link">Overview</a>
+                </div>
+                <div class="nav-item">
+                    <a href="#quick-start" class="nav-link">Quick Start</a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Authentication</div>
+                    <div class="nav-item">
+                        <a href="#authentication" class="nav-link">JWT Sessions</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#firebase-auth" class="nav-link">Firebase Integration</a>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">API Endpoints</div>
+                    <div class="nav-item">
+                        <a href="#user-management" class="nav-link">User Management</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#vehicle-search" class="nav-link">Vehicle Search</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#booking" class="nav-link">Booking</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#payments" class="nav-link">Payments</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#chat" class="nav-link">Chat System</a>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Integration</div>
+                    <div class="nav-item">
+                        <a href="#integration-guide" class="nav-link">Integration Guide</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#code-examples" class="nav-link">Code Examples</a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#error-handling" class="nav-link">Error Handling</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                
+                <!-- Overview Section -->
+                <section id="overview">
+                    <h1>MyBundee API Documentation</h1>
+                    <p>Welcome to the comprehensive developer guide for the MyBundee car-sharing platform. This documentation provides everything you need to integrate with our APIs, from basic authentication to advanced features like real-time chat and payment processing.</p>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">🏗️ Platform Architecture</h3>
+                        </div>
+                        <ul>
+                            <li><strong>Backend:</strong> Java microservices + Node.js auxiliary services</li>
+                            <li><strong>Authentication:</strong> JWT sessions with Firebase integration</li>
+                            <li><strong>Payments:</strong> Stripe integration with setup intents</li>
+                            <li><strong>Communication:</strong> Twilio Conversations with SMS notifications</li>
+                            <li><strong>Maps:</strong> Mapbox integration for location services</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>Base URLs:</strong><br>
+                        <strong>QA:</strong> <code>https://qa*.azurewebsites.net/api</code><br>
+                        <strong>Production:</strong> <code>https://*.azurewebsites.net/api</code>
+                    </div>
+                </section>
+                
+                <!-- Quick Start Section -->
+                <section id="quick-start">
+                    <h2>🚀 Quick Start</h2>
+                    <p>Get up and running with MyBundee APIs in minutes:</p>
+                    
+                    <div class="card">
+                        <h4>1. Get API Credentials</h4>
+                        <p>Contact the MyBundee team to obtain your API credentials and access tokens.</p>
+                        
+                        <h4>2. Set Up Environment</h4>
+                        <pre><code class="language-bash"># Install dependencies
+npm install axios
+
+# Set environment variables
+export USER_MANAGEMENT_BASEURL="https://qabundeeusermanagement.azurewebsites.net/api"
+export BOOKING_SERVICES_BASEURL="https://qabundeebooking.azurewebsites.net/api"</code></pre>
+                        
+                        <h4>3. Make Your First API Call</h4>
+                        <pre><code class="language-javascript">// Search for available vehicles
+const searchVehicles = async () => {
+  const response = await fetch(`${process.env.AVAILABILITY_BASEURL}/v1/availability/getByZipCode`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer YOUR_TOKEN'
+    },
+    body: JSON.stringify({
+      zipCode: "78701",
+      startTime: "2024-01-15T10:00:00Z",
+      endTime: "2024-01-17T10:00:00Z"
+    })
+  });
+  
+  const data = await response.json();
+  console.log(data.vehicleAllDetails);
+};</code></pre>
+                    </div>
+                </section>
+                
+                <!-- Authentication Section -->
+                <section id="authentication">
+                    <h2>🔐 Authentication</h2>
+                    <p>MyBundee uses JWT-based authentication with automatic refresh and secure cookie storage.</p>
+                    
+                    <h3>Session Structure</h3>
+                    <pre><code class="language-javascript">interface UserSession {
+  userId: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  userRole: 'DRIVER' | 'HOST' | 'EMPLOYEE' | 'ADMIN';
+  createdAt: string;
+  expiresAt: string;
+}</code></pre>
+                    
+                    <h3>Login Example</h3>
+                    <div class="card">
+                        <pre><code class="language-javascript">// User Login
+async function loginUser(email, password) {
+  const response = await fetch(`${USER_MANAGEMENT_BASEURL}/v1/user/checklogin`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'appId': 'BUNDEE'
+    },
+    body: JSON.stringify({ email, password })
+  });
+  
+  const result = await response.json();
+  
+  if (result.success) {
+    // Create session cookie
+    await createSession(result.user);
+    return result.user;
+  }
+  
+  throw new Error(result.message || 'Login failed');
+}</code></pre>
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <strong>✅ Authentication Headers:</strong><br>
+                        <code>Authorization: Bearer {your-jwt-token}</code><br>
+                        <code>Content-Type: application/json</code><br>
+                        <code>appId: BUNDEE</code>
+                    </div>
+                </section>
+                
+                <!-- Firebase Auth Section -->
+                <section id="firebase-auth">
+                    <h3>Firebase Integration</h3>
+                    <div class="card">
+                        <pre><code class="language-javascript">// Firebase Authentication Setup
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+
+// Sign in with Firebase
+async function signInUser(email, password) {
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  const idToken = await userCredential.user.getIdToken();
+  
+  // Exchange Firebase token for MyBundee session
+  const response = await fetch('/api/auth/firebase-login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ idToken })
+  });
+  
+  return response.json();
+}</code></pre>
+                    </div>
+                </section>
+                
+                <!-- Vehicle Search Section -->
+                <section id="vehicle-search">
+                    <h2>🚗 Vehicle Search</h2>
+                    <p>Search for available vehicles by location, time, and filters.</p>
+                    
+                    <h3>Search by Location</h3>
+                    <div class="card">
+                        <h4>Endpoint</h4>
+                        <div class="badge badge-success">POST</div> <code>/v1/availability/getByZipCode</code>
+                        
+                        <h4>Request Body</h4>
+                        <pre><code class="language-json">{
+  "zipCode": "78701",
+  "latitude": 30.2672,
+  "longitude": -97.7431,
+  "startTime": "2024-01-15T10:00:00Z",
+  "endTime": "2024-01-17T18:00:00Z",
+  "userId": 123,
+  "radius": 10,
+  "vehicleType": ["SEDAN", "SUV"],
+  "priceRange": {
+    "min": 50,
+    "max": 200
+  }
+}</code></pre>
+                        
+                        <h4>Response</h4>
+                        <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "vehicleAllDetails": [
+      {
+        "id": 250,
+        "make": "Toyota",
+        "model": "Camry",
+        "year": 2022,
+        "pricePerHour": 15.00,
+        "pricePerDay": 80.00,
+        "location": {
+          "address": "123 Main St",
+          "city": "Austin",
+          "state": "TX"
+        },
+        "features": ["GPS", "Bluetooth", "USB"],
+        "rating": 4.8
+      }
+    ],
+    "totalResults": 15
+  }
+}</code></pre>
+                    </div>
+                    
+                    <h3>Get Vehicle Details</h3>
+                    <div class="card">
+                        <h4>Endpoint</h4>
+                        <div class="badge badge-success">POST</div> <code>/v1/availability/getVehiclesnFeaturesById</code>
+                        
+                        <h4>Implementation</h4>
+                        <pre><code class="language-javascript">async function getVehicleDetails(vehicleId, userId) {
+  const response = await fetch(`${AVAILABILITY_BASEURL}/v1/availability/getVehiclesnFeaturesById`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.token}`
+    },
+    body: JSON.stringify({
+      vehicleid: vehicleId,
+      userId: userId || ''
+    })
+  });
+  
+  const data = await response.json();
+  
+  // Add to recently viewed history
+  if (userId) {
+    await addToRecentlyViewed(vehicleId);
+  }
+  
+  return data.vehicleAllDetails[0];
+}</code></pre>
+                    </div>
+                </section>
+                
+                <!-- Booking Section -->
+                <section id="booking">
+                    <h2>📅 Booking Management</h2>
+                    <p>Create and manage vehicle reservations and trips.</p>
+                    
+                    <h3>Create Reservation</h3>
+                    <div class="card">
+                        <h4>Endpoint</h4>
+                        <div class="badge badge-success">POST</div> <code>/v1/booking/createReservation</code>
+                        
+                        <h4>Implementation</h4>
+                        <pre><code class="language-javascript">async function createReservation(reservationData) {
+  const session = await getSession();
+  
+  const response = await fetch(`${BOOKING_SERVICES_BASEURL}/v1/booking/createReservation`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.token}`
+    },
+    body: JSON.stringify({
+      vehicleId: reservationData.vehicleId,
+      userId: session.userId,
+      hostId: reservationData.hostId,
+      startTime: reservationData.startTime,
+      endTime: reservationData.endTime,
+      pickupLocation: reservationData.pickupLocation,
+      paymentMethodId: reservationData.paymentMethodId,
+      protectionPlanId: reservationData.protectionPlanId
+    })
+  });
+  
+  const result = await response.json();
+  
+  if (result.success) {
+    return result.data;
+  }
+  
+  throw new Error(result.message || 'Booking failed');
+}</code></pre>
+                        
+                        <h4>Response</h4>
+                        <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "reservationId": 789,
+    "tripId": "TRIP_789_2024",
+    "status": "CONFIRMED",
+    "totalAmount": 160.00,
+    "securityDeposit": 200.00,
+    "confirmationNumber": "BND789456"
+  }
+}</code></pre>
+                    </div>
+                </section>
+                
+                <!-- Payments Section -->
+                <section id="payments">
+                    <h2>💳 Payment Processing</h2>
+                    <p>Integrate with Stripe for secure payment processing.</p>
+                    
+                    <h3>Create Setup Intent</h3>
+                    <div class="card">
+                        <h4>Endpoint</h4>
+                        <div class="badge badge-success">POST</div> <code>/api/checkout/create-setup-intent</code>
+                        
+                        <pre><code class="language-javascript">// Stripe Setup Intent
+async function createSetupIntent(customerId) {
+  const session = await getSession();
+  
+  const response = await fetch('/api/checkout/create-setup-intent', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      customerId,
+      userId: session.userId
+    })
+  });
+  
+  const result = await response.json();
+  return result.clientSecret;
+}</code></pre>
+                    </div>
+                    
+                    <h3>Process Payment</h3>
+                    <div class="card">
+                        <pre><code class="language-javascript">// Process Payment
+async function processPayment(paymentData) {
+  const session = await getSession();
+  
+  const response = await fetch('/api/checkout/process-payment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      paymentMethodId: paymentData.paymentMethodId,
+      amount: paymentData.amount,
+      currency: 'usd',
+      tripId: paymentData.tripId,
+      description: `Vehicle rental payment for Trip #${paymentData.tripId}`,
+      userId: session.userId
+    })
+  });
+  
+  return response.json();
+}</code></pre>
+                    </div>
+                </section>
+                
+                <!-- Chat Section -->
+                <section id="chat">
+                    <h2>💬 Chat System</h2>
+                    <p>Implement real-time chat with Twilio Conversations and SMS notifications.</p>
+                    
+                    <h3>Initialize Chat</h3>
+                    <div class="card">
+                        <pre><code class="language-javascript">// Initialize Twilio Chat
+async function initializeChat(userInfo) {
+  // Get access token from Twilio Function
+  const tokenResponse = await fetch(process.env.NEXT_PUBLIC_TWILIO_TOKEN_FUNCTION_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      identity: `customer_${userInfo.name.toLowerCase().replace(/\\s+/g, '_')}_${Date.now()}`,
+      userAgent: navigator.userAgent,
+      userInfo
+    })
+  });
+  
+  const { token, identity } = await tokenResponse.json();
+  
+  // Initialize Twilio client
+  const client = new ConversationsClient(token, { region: 'us1' });
+  
+  // Wait for client initialization
+  await new Promise((resolve, reject) => {
+    client.on('initialized', resolve);
+    client.on('initFailed', reject);
+  });
+  
+  // Get or create conversation
+  const conversationName = `support_${identity}`;
+  let conversation;
+  
+  try {
+    conversation = await client.getConversationByUniqueName(conversationName);
+  } catch (error) {
+    // Create new conversation
+    conversation = await client.createConversation({
+      uniqueName: conversationName,
+      friendlyName: userInfo.name,
+      attributes: { customerName: userInfo.name }
+    });
+    
+    await conversation.join();
+    
+    // Send SMS notification to support team
+    await sendChatNotification({
+      userInfo,
+      conversationId: conversation.sid
+    });
+  }
+  
+  return { client, conversation, identity };
+}</code></pre>
+                    </div>
+                </section>
+                
+                <!-- Integration Guide Section -->
+                <section id="integration-guide">
+                    <h2>🔧 Integration Guide</h2>
+                    <p>Step-by-step guide to integrate MyBundee APIs into your application.</p>
+                    
+                    <h3>Environment Setup</h3>
+                    <div class="card">
+                        <h4>Required Environment Variables</h4>
+                        <pre><code class="language-bash"># Authentication
+AUTH_SECRET="your-jwt-secret-key"
+ENCRYPTION_SECRET="your-32-char-encryption-key"
+NEXT_PUBLIC_COOKIE_NAME="session-local"
+
+# MyBundee Services
+USER_MANAGEMENT_BASEURL="https://qabundeeusermanagement.azurewebsites.net/api"
+BOOKING_SERVICES_BASEURL="https://qabundeebooking.azurewebsites.net/api"
+AVAILABILITY_BASEURL="https://qabundeeavailability.azurewebsites.net/api"
+
+# Third-party Services
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
+STRIPE_SECRET_KEY="sk_test_..."
+TWILIO_ACCOUNT_SID="ACxxxxxxxxxxxxx"
+TWILIO_API_KEY="SKxxxxxxxxxxxxx"</code></pre>
+                    </div>
+                    
+                    <h3>HTTP Service Setup</h3>
+                    <div class="card">
+                        <pre><code class="language-javascript">// lib/httpService.js
+import axios from 'axios';
+
+class HttpService {
+  constructor() {
+    this.instance = axios.create({
+      timeout: 30000,
+      headers: {
+        'Content-Type': 'application/json',
+        'appId': 'BUNDEE'
+      }
+    });
+
+    // Request interceptor for authentication
+    this.instance.interceptors.request.use(
+      async (config) => {
+        const session = await getSession();
+        if (session?.token) {
+          config.headers.Authorization = `Bearer ${session.token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    // Response interceptor for error handling
+    this.instance.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (error.response?.status === 401) {
+          await signOut();
+          window.location.href = '/sign-in';
+        }
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  async get(url, config) {
+    return this.instance.get(url, config);
+  }
+
+  async post(url, data, config) {
+    return this.instance.post(url, data, config);
+  }
+}
+
+export const http = new HttpService();</code></pre>
+                    </div>
+                </section>
+                
+                <!-- Code Examples Section -->
+                <section id="code-examples">
+                    <h2>📋 Code Examples</h2>
+                    
+                    <h3>Complete Booking Flow</h3>
+                    <div class="card">
+                        <pre><code class="language-javascript">// Complete Vehicle Booking Flow
+async function completeBookingFlow() {
+  try {
+    // 1. Search for available vehicles
+    const searchResults = await searchVehicles({
+      zipCode: "78701",
+      startTime: "2024-01-15T10:00:00Z",
+      endTime: "2024-01-17T18:00:00Z"
+    });
+
+    const selectedVehicle = searchResults.vehicleAllDetails[0];
+
+    // 2. Get detailed vehicle information
+    const vehicleDetails = await getVehicleDetails(selectedVehicle.id);
+
+    // 3. Calculate pricing
+    const pricing = await calculatePrice({
+      vehicleid: selectedVehicle.id,
+      startTime: "2024-01-15T10:00:00Z",
+      endTime: "2024-01-17T18:00:00Z",
+      hostid: vehicleDetails.hostId
+    });
+
+    // 4. Create payment setup intent
+    const setupIntent = await createSetupIntent();
+
+    // 5. Create reservation
+    const reservation = await createReservation({
+      vehicleId: selectedVehicle.id,
+      startTime: "2024-01-15T10:00:00Z",
+      endTime: "2024-01-17T18:00:00Z",
+      paymentMethodId: "pm_123",
+      pickupLocation: vehicleDetails.location
+    });
+
+    console.log('Booking completed:', reservation);
+    return reservation;
+
+  } catch (error) {
+    console.error('Booking failed:', error);
+    throw error;
+  }
+}</code></pre>
+                    </div>
+                </section>
+                
+                <!-- Error Handling Section -->
+                <section id="error-handling">
+                    <h2>⚠️ Error Handling</h2>
+                    
+                    <h3>Standard Error Response</h3>
+                    <div class="card">
+                        <pre><code class="language-json">{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid request parameters",
+    "details": {
+      "field": "email",
+      "issue": "Invalid email format"
+    }
+  },
+  "timestamp": "2024-01-15T10:00:00Z"
+}</code></pre>
+                    </div>
+                    
+                    <h3>Common Error Codes</h3>
+                    <div class="card">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Description</th>
+                                    <th>HTTP Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-danger">AUTH_REQUIRED</span></td>
+                                    <td>Authentication required</td>
+                                    <td>401</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-danger">ACCESS_DENIED</span></td>
+                                    <td>Insufficient permissions</td>
+                                    <td>403</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-warning">NOT_FOUND</span></td>
+                                    <td>Resource not found</td>
+                                    <td>404</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-warning">VALIDATION_ERROR</span></td>
+                                    <td>Invalid request data</td>
+                                    <td>400</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-info">VEHICLE_UNAVAILABLE</span></td>
+                                    <td>Vehicle not available</td>
+                                    <td>409</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-danger">PAYMENT_FAILED</span></td>
+                                    <td>Payment processing failed</td>
+                                    <td>402</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h3>Error Handling Implementation</h3>
+                    <div class="card">
+                        <pre><code class="language-javascript">// Centralized Error Handling
+class APIError extends Error {
+  constructor(message, statusCode, code) {
+    super(message);
+    this.name = 'APIError';
+    this.statusCode = statusCode;
+    this.code = code;
+  }
+}
+
+function handleAPIResponse(response) {
+  if (response.success) {
+    return response.data;
+  } else {
+    throw new APIError(
+      response.message || 'API request failed',
+      response.statusCode || 500,
+      response.errorCode
+    );
+  }
+}
+
+// Usage with retry logic
+async function withRetry(operation, maxAttempts = 3, delay = 1000) {
+  let lastError;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+      
+      if (attempt === maxAttempts) {
+        throw lastError;
+      }
+
+      // Exponential backoff
+      const waitTime = delay * Math.pow(2, attempt - 1);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+  }
+}</code></pre>
+                    </div>
+                </section>
+                
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Navigation functionality
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+        
+        // Smooth scrolling and active nav highlighting
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Update active nav item
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+        // Search functionality
+        function searchDocs(event) {
+            const query = event.target.value.toLowerCase();
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                const isMatch = text.includes(query);
+                section.style.display = query === '' || isMatch ? 'block' : 'none';
+            });
+        }
+        
+        // Scroll spy for navigation
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveNav);
+        
+        // Copy code functionality
+        document.querySelectorAll('pre code').forEach(block => {
+            block.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent).then(() => {
+                    // Show copied feedback
+                    const originalText = block.textContent;
+                    block.textContent = 'Copied!';
+                    setTimeout(() => {
+                        block.textContent = originalText;
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
