@@ -1,0 +1,58 @@
+# MyBundee API Documentation Site Configuration
+title: MyBundee API Documentation
+description: Comprehensive API documentation for the MyBundee car-sharing platform
+baseurl: "/mybundee-api-docs"
+url: "https://mybundee.github.io"
+
+# Theme
+remote_theme: just-the-docs/just-the-docs
+color_scheme: light
+
+# Navigation
+nav_sort: case_insensitive
+
+# Search
+search_enabled: true
+search:
+  heading_level: 2
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+
+# Footer
+footer_content: "MyBundee API Documentation - © 2024 MyBundee Inc. All rights reserved."
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+
+# Collections
+collections:
+  guides:
+    permalink: "/:collection/:name/"
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "guides"
+    values:
+      layout: "default"

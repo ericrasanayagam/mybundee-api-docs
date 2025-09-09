@@ -1,0 +1,13 @@
+{
+  "name": "mybundee-api-docs",
+  "version": "1.0.0",
+  "description": "MyBundee API Documentation",
+  "scripts": {
+    "build": "bundle exec jekyll build",
+    "serve": "bundle exec jekyll serve",
+    "deploy": "npm run build && gh-pages -d _site"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
+  }
+}
