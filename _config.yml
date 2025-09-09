@@ -2,7 +2,7 @@
 title: MyBundee API Documentation
 description: Comprehensive API documentation for the MyBundee car-sharing platform
 baseurl: "/mybundee-api-docs"
-url: "https://mybundee.github.io"
+url: "https://ericrasanayagam.github.io"
 
 # Theme
 remote_theme: just-the-docs/just-the-docs

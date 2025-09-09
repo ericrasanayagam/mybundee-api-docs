@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBundee API Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-size: 3em;
+            margin: 0;
+        }
+        .header p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin: 10px 0 0 0;
+        }
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .doc-card {
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .doc-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-decoration: none;
+        }
+        .doc-card h3 {
+            color: #3498db;
+            margin: 0 0 15px 0;
+            font-size: 1.4em;
+        }
+        .doc-card p {
+            margin: 0;
+            color: #555;
+        }
+        .badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin: 10px 0;
+        }
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #f0f0f0;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>MyBundee API Documentation</h1>
+        <p>Comprehensive developer guide for the MyBundee car-sharing platform</p>
+    </div>
+
+    <div class="docs-grid">
+        <a href="./complete-guide.md" class="doc-card">
+            <h3>📖 Complete API Guide</h3>
+            <div class="badge">COMPREHENSIVE</div>
+            <p>Full developer guide with step-by-step tutorials, authentication, integration examples, and best practices.</p>
+        </a>
+
+        <a href="./api-reference.md" class="doc-card">
+            <h3>🔗 API Reference</h3>
+            <div class="badge">QUICK REFERENCE</div>
+            <p>Complete API endpoint reference with request/response examples and error handling.</p>
+        </a>
+
+        <a href="https://github.com/ericrasanayagam/mybundee-api-docs" class="doc-card">
+            <h3>📂 GitHub Repository</h3>
+            <div class="badge">SOURCE CODE</div>
+            <p>View the source code, contribute improvements, or report issues.</p>
+        </a>
+    </div>
+
+    <div style="margin: 40px 0; padding: 30px; background: #f8f9fa; border-radius: 8px;">
+        <h2>🚀 Quick Start</h2>
+        <ol>
+            <li><strong>Get API Credentials:</strong> Contact the MyBundee team for access tokens</li>
+            <li><strong>Authentication:</strong> Set up JWT sessions with Firebase integration</li>
+            <li><strong>Make API Calls:</strong> Start with vehicle search and booking endpoints</li>
+            <li><strong>Integration:</strong> Follow the comprehensive guide for production deployment</li>
+        </ol>
+    </div>
+
+    <div style="margin: 40px 0; padding: 30px; background: #e8f4fd; border-radius: 8px;">
+        <h2>🏗️ Platform Architecture</h2>
+        <ul>
+            <li><strong>Backend:</strong> Java microservices + Node.js auxiliary services</li>
+            <li><strong>Authentication:</strong> JWT sessions with Firebase integration</li>
+            <li><strong>Payments:</strong> Stripe integration with setup intents</li>
+            <li><strong>Communication:</strong> Twilio Conversations with SMS notifications</li>
+            <li><strong>Maps:</strong> Mapbox integration for location services</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 MyBundee Inc. All rights reserved.</p>
+        <p>Last updated: <span id="lastUpdate"></span></p>
+    </div>
+
+    <script>
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString();
+    </script>
+</body>
+</html>
